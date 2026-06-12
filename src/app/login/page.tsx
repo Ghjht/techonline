@@ -35,8 +35,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="flex items-center justify-center gap-2">
-            {logo && <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />}
-            <span className="text-2xl font-bold text-primary-600">Tech-IT</span>
+            {logo ? <img src={logo} alt="Logo" className="h-8 w-8 object-contain" /> : <img src="/logo.svg" alt="Tech-IT" className="h-8 w-auto" />}
           </Link>
           <p className="text-gray-500 text-sm mt-1">Connectez-vous à votre compte</p>
         </div>

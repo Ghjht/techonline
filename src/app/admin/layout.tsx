@@ -30,8 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-64 bg-gray-900 text-white flex-shrink-0 hidden md:flex flex-col">
         <div className="p-5 border-b border-gray-700">
           <Link href="/" className="flex items-center gap-2">
-            {logo && <img src={logo} alt="Logo" className="h-6 w-6 object-contain" />}
-            <span className="text-lg font-bold text-primary-400">Tech-IT</span>
+            {logo ? <img src={logo} alt="Logo" className="h-6 w-6 object-contain" /> : <img src="/logo.svg" alt="Tech-IT" className="h-6 w-auto" />}
           </Link>
           <p className="text-xs text-gray-400 mt-0.5">Administration</p>
         </div>

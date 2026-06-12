@@ -12,6 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Tech-IT - Matériel Informatique Haut de Gamme",
   description: "Tech-IT - Votre boutique en ligne de matériel informatique professionnel : processeurs, cartes graphiques, RAM, stockage et plus.",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
