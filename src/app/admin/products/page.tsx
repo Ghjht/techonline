@@ -5,15 +5,25 @@ import Link from "next/link";
 import { Product } from "@/types";
 import { categories, formatPrice, deleteProduct } from "@/data/productStore";
 import { getAllProducts } from "@/data/productStore";
+import { useToast } from "@/components/Toast";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [catFilter, setCatFilter] = useState("");
+  const { toast } = useToast();
 
   useEffect(() => { setProducts(getAllProducts()); }, []);
 
   const refresh = () => setProducts(getAllProducts());
+
+  const handleDelete = (id: string, name: string) => {
+    if (confirm(`Supprimer "${name}" ?`)) {
+      deleteProduct(id);
+      refresh();
+      toast("Produit supprimé", "success");
+    }
+  };
 
   const filtered = products.filter((p) => {
     const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase());
@@ -87,7 +97,7 @@ export default function AdminProductsPage() {
                       Modifier
                     </Link>
                     <button
-                      onClick={() => { if (confirm("Supprimer ce produit ?")) { deleteProduct(p.id); refresh(); } }}
+                      onClick={() => handleDelete(p.id, p.name)}
                       className="text-red-600 hover:text-red-700 text-sm font-medium"
                     >
                       Suppr.

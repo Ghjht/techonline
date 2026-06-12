@@ -47,7 +47,7 @@ export default function HomePage() {
     <div>
       <section className="bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl animate-slideUp">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Matériel Informatique<br />Haut de Gamme
             </h1>
@@ -69,18 +69,19 @@ export default function HomePage() {
 
       <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 -mt-10 relative z-10">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          {categories.map((cat) => {
+          {categories.map((cat, i) => {
             const count = products.filter((p) => p.category === cat.id).length;
             const isActive = selectedCategory === cat.id;
             return (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(isActive ? null : cat.id)}
-                className={`flex flex-col items-center gap-1.5 p-4 rounded-xl border transition-all ${
+                className={`animate-scaleIn flex flex-col items-center gap-1.5 p-4 rounded-xl border transition-all ${
                   isActive
                     ? "bg-primary-50 border-primary-300 shadow-sm"
                     : "bg-white border-gray-200 hover:border-primary-200 hover:shadow-sm"
                 }`}
+                style={{ animationDelay: `${(i + 1) * 0.1}s` }}
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className={`text-xs font-medium text-center ${isActive ? "text-primary-700" : "text-gray-700"}`}>

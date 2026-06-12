@@ -8,10 +8,12 @@ import { getProductById, updateProduct } from "@/data/productStore";
 import MultiImageUpload from "@/components/MultiImageUpload";
 import FeaturesSpecsEditor from "@/components/FeaturesSpecsEditor";
 import Link from "next/link";
+import { useToast } from "@/components/Toast";
 
 export default function EditProductPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { toast } = useToast();
   const [product, setProduct] = useState<Product | undefined>();
   const [form, setForm] = useState({
     name: "", category: "", brand: "", description: "", price: "", stock: "",
@@ -65,6 +67,7 @@ export default function EditProductPage() {
       features: features.filter((f) => f.trim()),
       specs: Object.fromEntries(Object.entries(specs).filter(([k, v]) => k.trim() && v.trim())),
     });
+    toast("Produit modifié avec succès", "success");
     router.push("/admin/products");
   };
 

@@ -6,9 +6,11 @@ import { categories } from "@/data/productStore";
 import { addProduct } from "@/data/productStore";
 import MultiImageUpload from "@/components/MultiImageUpload";
 import FeaturesSpecsEditor from "@/components/FeaturesSpecsEditor";
+import { useToast } from "@/components/Toast";
 
 export default function AddProductPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [form, setForm] = useState({
     name: "", category: "", brand: "", description: "", price: "", stock: "",
   });
@@ -30,9 +32,10 @@ export default function AddProductPage() {
       price: parseInt(form.price) || 0,
       stock: parseInt(form.stock) || 0,
       images,
-      features: features.filter((f) => f.trim()),
-      specs: Object.fromEntries(Object.entries(specs).filter(([k, v]) => k.trim() && v.trim())),
+      features: features.filter(Boolean),
+      specs: Object.fromEntries(Object.entries(specs).filter(([k, v]) => k && v)),
     });
+    toast("Produit ajouté avec succès", "success");
     router.push("/admin/products");
   };
 
