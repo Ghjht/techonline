@@ -1,76 +1,79 @@
 import { Product } from "@/types";
-import { products as staticProducts, categories } from "./products";
+import { categories, formatPrice } from "./products";
 
-const STORAGE_KEY = "techstore_products";
+const API_BASE = "/api/products";
 
-function loadProducts(): Product[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-  } catch { /* ignore */ }
-  return staticProducts;
+async function handleResponse(res: Response) {
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Request failed" }));
+    throw new Error(err.error || "Request failed");
+  }
+  return res.json();
 }
 
-function saveProducts(list: Product[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+export async function getAllProducts(): Promise<Product[]> {
+  const res = await fetch(API_BASE);
+  return handleResponse(res);
 }
 
-export function getAllProducts(): Product[] {
-  return loadProducts();
+export async function getProductById(id: string): Promise<Product | undefined> {
+  const res = await fetch(`${API_BASE}/${id}`);
+  if (res.status === 404) return undefined;
+  return handleResponse(res);
 }
 
-export function getProductById(id: string): Product | undefined {
-  return loadProducts().find((p) => p.id === id);
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+  const products = await getAllProducts();
+  return products.find((p) => p.slug === slug);
 }
 
-export function getProductBySlug(slug: string): Product | undefined {
-  return loadProducts().find((p) => p.slug === slug);
+export async function getFeaturedProducts(): Promise<Product[]> {
+  const all = await getAllProducts();
+  return all.filter((p) => p.isFeatured);
 }
 
-export function getFeaturedProducts(): Product[] {
-  return loadProducts().filter((p) => p.isFeatured);
+export async function getProductsByCategory(category: string): Promise<Product[]> {
+  const res = await fetch(`${API_BASE}?category=${encodeURIComponent(category)}`);
+  return handleResponse(res);
 }
 
-export function getProductsByCategory(category: string): Product[] {
-  return loadProducts().filter((p) => p.category === category);
-}
-
-export function addProduct(data: Pick<Product, "name" | "category" | "brand" | "description" | "price" | "stock" | "features" | "specs"> & { images: string[] }): Product {
-  const list = loadProducts();
-  const id = `prod-${Date.now()}`;
-  const product: Product = {
+export async function addProduct(data: Pick<Product, "name" | "category" | "brand" | "description" | "price" | "stock" | "features" | "specs"> & { images: string[] }): Promise<Product> {
+  const slug = data.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  const product = {
     ...data,
-    id,
+    slug,
     image: data.images[0] || "",
-    slug: data.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
-    reviews: 0,
+    isNew: true,
+    isFeatured: false,
     rating: 0,
-    createdAt: new Date().toISOString().split("T")[0],
+    reviews: 0,
   };
-  list.push(product);
-  saveProducts(list);
-  return product;
+  const res = await fetch(API_BASE, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(product),
+  });
+  return handleResponse(res);
 }
 
-export function updateProduct(id: string, data: Partial<Product>): Product | undefined {
-  const list = loadProducts();
-  const idx = list.findIndex((p) => p.id === id);
-  if (idx === -1) return undefined;
-  list[idx] = { ...list[idx], ...data };
-  saveProducts(list);
-  return list[idx];
+export async function updateProduct(id: string, data: Partial<Product>): Promise<Product | undefined> {
+  const res = await fetch(`${API_BASE}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 404) return undefined;
+  return handleResponse(res);
 }
 
-export function deleteProduct(id: string): boolean {
-  const list = loadProducts();
-  const filtered = list.filter((p) => p.id !== id);
-  if (filtered.length === list.length) return false;
-  saveProducts(filtered);
+export async function deleteProduct(id: string): Promise<boolean> {
+  const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+  if (res.status === 404) return false;
+  await handleResponse(res);
   return true;
 }
 
-export function resetProducts() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-export { categories, formatPrice } from "./products";
+export { categories, formatPrice };

@@ -25,7 +25,8 @@ export default function EditProductPage() {
   const [specs, setSpecs] = useState<Record<string, string>>({ "": "" });
 
   useEffect(() => {
-    const found = getProductById(id);
+    (async () => {
+    const found = await getProductById(id);
     if (found) {
       setProduct(found);
       setForm({
@@ -40,6 +41,7 @@ export default function EditProductPage() {
       setFeatures(found.features.length > 0 ? found.features : [""]);
       setSpecs(Object.keys(found.specs).length > 0 ? found.specs : { "": "" });
     }
+    })();
   }, [id]);
 
   if (!product) {
@@ -55,9 +57,9 @@ export default function EditProductPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateProduct(id, {
+    await updateProduct(id, {
       name: form.name,
       category: form.category,
       brand: form.brand,

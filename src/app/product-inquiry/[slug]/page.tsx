@@ -22,7 +22,9 @@ export default function ProductInquiryPage() {
   const [product, setProduct] = useState(staticProducts.find((p) => p.slug === slug));
 
   useEffect(() => {
-    setProduct(getProductBySlug(slug));
+    (async () => {
+      setProduct(await getProductBySlug(slug));
+    })();
   }, [slug]);
 
   if (!product) {

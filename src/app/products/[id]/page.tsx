@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { Product } from "@/types";
 import { categories, formatPrice } from "@/data/productStore";
 import { getProductBySlug } from "@/data/productStore";
 import { getAllProducts } from "@/data/productStore";
@@ -17,13 +18,21 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setProduct(getProductBySlug(id));
-    setLoading(false);
+    (async () => {
+      setProduct(await getProductBySlug(id));
+      setLoading(false);
+    })();
   }, [id]);
 
-  const relatedProducts = product
-    ? getAllProducts().filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
-    : [];
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (!product) return;
+    (async () => {
+      const all = await getAllProducts();
+      setRelatedProducts(all.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4));
+    })();
+  }, [product]);
 
   if (loading) return <ProductDetailSkeleton />;
 

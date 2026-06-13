@@ -15,12 +15,12 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setProducts(getAllProducts());
-      setFeatured(getFeaturedProducts());
+    (async () => {
+      const all = await getAllProducts();
+      setProducts(all);
+      setFeatured(all.filter((p) => p.isFeatured));
       setLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
+    })();
   }, []);
 
   const filtered = useMemo(() => {

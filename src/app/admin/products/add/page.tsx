@@ -24,9 +24,9 @@ export default function AddProductPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addProduct({
+    await addProduct({
       name: form.name,
       category: form.category,
       brand: form.brand,

@@ -8,7 +8,7 @@ import { getAllProducts } from "@/data/productStore";
 export default function AdminCategoriesPage() {
   const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => { setProducts(getAllProducts()); }, []);
+  useEffect(() => { (async () => { setProducts(await getAllProducts()); })(); }, []);
 
   return (
     <div>

@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   const [logo, setLogoState] = useState("");
   const logoRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => { setProducts(getAllProducts()); setLogoState(getLogo()); }, []);
+  useEffect(() => { (async () => { setProducts(await getAllProducts()); })(); setLogoState(getLogo()); }, []);
 
   const handleLogoFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

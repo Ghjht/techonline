@@ -15,14 +15,14 @@ export default function AdminProductsPage() {
   const { toast } = useToast();
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
 
-  useEffect(() => { setProducts(getAllProducts()); }, []);
+  useEffect(() => { (async () => { setProducts(await getAllProducts()); })(); }, []);
 
-  const refresh = () => setProducts(getAllProducts());
+  const refresh = async () => setProducts(await getAllProducts());
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!deleteTarget) return;
-    deleteProduct(deleteTarget.id);
-    refresh();
+    await deleteProduct(deleteTarget.id);
+    await refresh();
     toast("Produit supprimé", "success");
     setDeleteTarget(null);
   };
