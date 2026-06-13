@@ -68,16 +68,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Mobile nav */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 flex justify-around py-2">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 flex justify-around py-2 safe-area-pb">
         {navItems.map((item) => (
-          <Link key={item.href} href={item.href} className="flex flex-col items-center text-xs text-gray-500 hover:text-primary-600">
+          <Link key={item.href} href={item.href} className="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
             <span className="text-lg">{item.icon}</span>
             {item.label}
           </Link>
         ))}
       </div>
 
-      <main className="flex-1 bg-gray-50 pb-16 md:pb-0">
+      <main className="flex-1 bg-gray-50 dark:bg-gray-950 pb-16 md:pb-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
           {children}
         </div>

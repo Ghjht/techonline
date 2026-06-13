@@ -23,7 +23,6 @@ export default function AdminDashboard() {
       const dataUrl = ev.target?.result as string;
       setLogo(dataUrl);
       setLogoState(dataUrl);
-      window.location.reload();
     };
     reader.readAsDataURL(file);
   };
@@ -31,7 +30,6 @@ export default function AdminDashboard() {
   const handleRemoveLogo = () => {
     removeLogo();
     setLogoState("");
-    window.location.reload();
   };
 
   const stockLow = products.filter((p) => p.stock > 0 && p.stock <= 10).length;
@@ -55,13 +53,13 @@ export default function AdminDashboard() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
-        <h2 className="font-semibold text-gray-900 mb-3">Logo du site</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6">
+        <h2 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Logo du site</h2>
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center flex-shrink-0">
+          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 overflow-hidden flex items-center justify-center flex-shrink-0">
             {logo ? (
               <img src={logo} alt="Logo" className="w-full h-full object-contain" />
             ) : (
@@ -84,31 +82,31 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white border border-gray-200 rounded-xl p-5">
+          <div key={stat.label} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-2xl">{stat.icon}</span>
-              <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{stat.label}</span>
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stat.value}</p>
           </div>
         ))}
       </div>
 
       <section className="mt-10">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Produits par catégorie</h2>
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Produits par catégorie</h2>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           {categories.map((cat, idx) => {
             const count = products.filter((p) => p.category === cat.id).length;
             const value = products.filter((p) => p.category === cat.id).reduce((s, p) => s + p.price * p.stock, 0);
             return (
-              <div key={cat.id} className={`flex items-center justify-between px-6 py-3 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
+              <div key={cat.id} className={`flex items-center justify-between px-6 py-3 ${idx % 2 === 0 ? "bg-gray-50 dark:bg-gray-800/50" : "bg-white dark:bg-gray-800"}`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">{cat.icon}</span>
-                  <span className="text-sm font-medium text-gray-900">{cat.name}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{cat.name}</span>
                 </div>
                 <div className="flex items-center gap-6 text-sm">
-                  <span className="text-gray-500">{count} produits</span>
-                  <span className="text-gray-700 font-medium">{formatPrice(value)}</span>
+                  <span className="text-gray-500 dark:text-gray-400">{count} produits</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{formatPrice(value)}</span>
                 </div>
               </div>
             );
@@ -117,15 +115,15 @@ export default function AdminDashboard() {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Stock faible</h2>
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Stock faible</h2>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
               <tr>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">Produit</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500">Catégorie</th>
-                <th className="text-right px-6 py-3 font-medium text-gray-500">Stock</th>
-                <th className="text-right px-6 py-3 font-medium text-gray-500">Prix</th>
+                <th className="text-left px-6 py-3 font-medium text-gray-500 dark:text-gray-400">Produit</th>
+                <th className="text-left px-6 py-3 font-medium text-gray-500 dark:text-gray-400">Catégorie</th>
+                <th className="text-right px-6 py-3 font-medium text-gray-500 dark:text-gray-400">Stock</th>
+                <th className="text-right px-6 py-3 font-medium text-gray-500 dark:text-gray-400">Prix</th>
               </tr>
             </thead>
             <tbody>
@@ -133,11 +131,11 @@ export default function AdminDashboard() {
                 .filter((p) => p.stock <= 10)
                 .sort((a, b) => a.stock - b.stock)
                 .map((p, idx) => (
-                  <tr key={p.id} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="px-6 py-3 font-medium text-gray-900">{p.name}</td>
-                    <td className="px-6 py-3 text-gray-500">{categories.find((c) => c.id === p.category)?.name}</td>
+                  <tr key={p.id} className={idx % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-800/50"}>
+                    <td className="px-6 py-3 font-medium text-gray-900 dark:text-gray-100">{p.name}</td>
+                    <td className="px-6 py-3 text-gray-500 dark:text-gray-400">{categories.find((c) => c.id === p.category)?.name}</td>
                     <td className={`px-6 py-3 text-right font-medium ${p.stock === 0 ? "text-red-600" : "text-yellow-600"}`}>{p.stock}</td>
-                    <td className="px-6 py-3 text-right text-gray-700">{formatPrice(p.price)}</td>
+                    <td className="px-6 py-3 text-right text-gray-700 dark:text-gray-300">{formatPrice(p.price)}</td>
                   </tr>
                 ))}
             </tbody>

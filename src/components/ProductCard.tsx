@@ -6,39 +6,42 @@ import { formatPrice } from "@/data/productStore";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <Link href={`/products/${product.slug}`} className="block">
-        <div className="aspect-square bg-gray-100 relative overflow-hidden">
+    <div className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-300 hover:-translate-y-1">
+      <Link href={product.stock > 0 ? `/products/${product.slug}` : "#"} className="block">
+        <div className="aspect-square bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${product.stock === 0 ? "opacity-50" : ""}`}
             loading="lazy"
           />
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {product.isNew && (
               <span className="bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">Nouveau</span>
             )}
+            {product.stock === 0 && (
+              <span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">Rupture</span>
+            )}
           </div>
         </div>
       </Link>
 
       <div className="p-4">
-        <span className="text-xs text-gray-500 uppercase tracking-wider">{product.brand}</span>
-        <Link href={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-gray-900 mt-1 mb-2 line-clamp-2 hover:text-primary-600 transition-colors">
+        <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">{product.brand}</span>
+        <Link href={product.stock > 0 ? `/products/${product.slug}` : "#"}>
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mt-1 mb-2 line-clamp-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
             {product.name}
           </h3>
         </Link>
 
         <div className="flex items-center gap-1 text-sm mb-3">
           <span className="text-yellow-400">{"★".repeat(Math.round(product.rating))}</span>
-          <span className="text-gray-400 ml-1">({product.reviews})</span>
+          <span className="text-gray-400 dark:text-gray-500 ml-1">({product.reviews})</span>
         </div>
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-lg font-bold text-gray-900">{formatPrice(product.price)}</span>
+            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatPrice(product.price)}</span>
           </div>
         </div>
 
@@ -46,7 +49,7 @@ export default function ProductCard({ product }: { product: Product }) {
           href={product.stock > 0 ? `/product-inquiry/${product.slug}` : "#"}
           className={`mt-3 w-full flex items-center justify-center gap-2 text-sm font-medium py-2.5 rounded-lg transition-colors ${
             product.stock === 0
-              ? "bg-gray-300 text-white cursor-not-allowed"
+              ? "bg-gray-300 dark:bg-gray-600 text-white cursor-not-allowed"
               : "bg-green-500 hover:bg-green-600 text-white"
           }`}
         >

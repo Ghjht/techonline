@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import { getLogo } from "@/data/settingsStore";
 
 export default function Header() {
   const { totalItems } = useCart();
   const { user, isAdmin, logout } = useAuth();
+  const { dark, toggle } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [logo, setLogo] = useState("");
 
@@ -41,9 +43,25 @@ export default function Header() {
               <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors hidden sm:inline">Connexion</Link>
             )}
 
+            <button
+              onClick={toggle}
+              className="p-2 text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+              aria-label={dark ? "Mode clair" : "Mode sombre"}
+            >
+              {dark ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+
             <Link
               href="/cart"
-              className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors"
+              className="relative p-2 text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
@@ -75,6 +93,9 @@ export default function Header() {
             {!user && <Link href="/login" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-gray-700 hover:text-primary-600">Connexion</Link>}
             {isAdmin && <Link href="/admin" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-primary-600 hover:text-primary-700">Admin</Link>}
             {user && <button onClick={() => { logout(); setMenuOpen(false); }} className="block py-2 text-sm font-medium text-red-600">Déconnexion</button>}
+            <button onClick={() => { toggle(); setMenuOpen(false); }} className="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+              {dark ? "Mode clair" : "Mode sombre"}
+            </button>
           </nav>
         )}
       </div>

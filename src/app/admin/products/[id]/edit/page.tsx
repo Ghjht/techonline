@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Product } from "@/types";
 import { categories } from "@/data/productStore";
 import { getProductById, updateProduct } from "@/data/productStore";
-import MultiImageUpload from "@/components/MultiImageUpload";
-import FeaturesSpecsEditor from "@/components/FeaturesSpecsEditor";
 import Link from "next/link";
 import { useToast } from "@/components/Toast";
+
+const MultiImageUpload = dynamic(() => import("@/components/MultiImageUpload"), { ssr: false });
+const FeaturesSpecsEditor = dynamic(() => import("@/components/FeaturesSpecsEditor"), { ssr: false });
 
 export default function EditProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +45,7 @@ export default function EditProductPage() {
   if (!product) {
     return (
       <div className="text-center py-20">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Produit non trouvé</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Produit non trouvé</h1>
         <Link href="/admin/products" className="text-primary-600 hover:text-primary-700">&larr; Retour</Link>
       </div>
     );
@@ -73,34 +75,34 @@ export default function EditProductPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Modifier le produit</h1>
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 max-w-2xl space-y-4">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Modifier le produit</h1>
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 max-w-2xl space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-            <input type="text" name="name" required value={form.name} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nom</label>
+            <input type="text" name="name" required value={form.name} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-            <select name="category" required value={form.category} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Catégorie</label>
+            <select name="category" required value={form.category} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
               {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Marque</label>
-            <input type="text" name="brand" required value={form.brand} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Marque</label>
+            <input type="text" name="brand" required value={form.brand} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" />
           </div>
           <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea name="description" required value={form.description} onChange={handleChange} rows={3} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+            <textarea name="description" required value={form.description} onChange={handleChange} rows={3} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Prix (en DH)</label>
-            <input type="number" name="price" required value={form.price} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Prix (en DH)</label>
+            <input type="number" name="price" required value={form.price} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-            <input type="number" name="stock" required value={form.stock} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
+            <input type="number" name="stock" required value={form.stock} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" />
           </div>
           <div className="sm:col-span-2">
             <MultiImageUpload images={images} onChange={setImages} />
@@ -116,7 +118,7 @@ export default function EditProductPage() {
         </div>
         <div className="flex gap-3 pt-2">
           <button type="submit" className="bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors">Enregistrer</button>
-          <button type="button" onClick={() => router.back()} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-6 py-2.5 rounded-lg transition-colors">Annuler</button>
+          <button type="button" onClick={() => router.back()} className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium px-6 py-2.5 rounded-lg transition-colors">Annuler</button>
         </div>
       </form>
     </div>

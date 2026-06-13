@@ -28,7 +28,7 @@ export default function ProductInquiryPage() {
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Produit non trouvé</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Produit non trouvé</h1>
         <Link href="/" className="text-primary-600 hover:text-primary-700 font-medium">&larr; Retour à l&apos;accueil</Link>
       </div>
     );
@@ -48,49 +48,49 @@ export default function ProductInquiryPage() {
         <span className="mx-2">/</span>
         <Link href={`/products/${product.slug}`} className="hover:text-primary-600">{product.name}</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Contact</span>
+        <span className="text-gray-900 dark:text-gray-100">Contact</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-6">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
             <div className="flex flex-col sm:flex-row gap-6">
-              <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+              <div className="w-full sm:w-48 h-48 bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden flex-shrink-0">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1">
-                <span className="text-xs text-gray-500 uppercase tracking-wider">{product.brand}</span>
-                <h1 className="text-xl font-bold text-gray-900 mt-1 mb-3">{product.name}</h1>
+                <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">{product.brand}</span>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-1 mb-3">{product.name}</h1>
 
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-yellow-400">{"★".repeat(Math.round(product.rating))}</span>
-                  <span className="text-sm text-gray-500">{product.rating} / 5 ({product.reviews} avis)</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{product.rating} / 5 ({product.reviews} avis)</span>
                 </div>
 
                 <div className="mb-3">
-                  <span className="text-3xl font-bold text-primary-600">{formatPrice(product.price)}</span>
+                  <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">{formatPrice(product.price)}</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-sm">
                   <span className={`inline-block w-2.5 h-2.5 rounded-full ${product.stock > 0 ? "bg-green-500" : "bg-red-500"}`} />
-                  <span className="text-gray-600">{product.stock > 0 ? "En stock" : "Rupture de stock"}</span>
+                  <span className="text-gray-600 dark:text-gray-300">{product.stock > 0 ? "En stock" : "Rupture de stock"}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <h2 className="font-bold text-gray-900 mb-3">Description</h2>
-            <p className="text-gray-600 leading-relaxed">{product.description}</p>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+            <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-3">Description</h2>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{product.description}</p>
           </div>
 
           {product.features.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="font-bold text-gray-900 mb-3">Caractéristiques</h2>
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+              <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-3">Caractéristiques</h2>
               <ul className="space-y-2">
                 {product.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                    <span className="text-primary-600 mt-0.5">•</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                    <span className="text-primary-600 dark:text-primary-400 mt-0.5">•</span>
                     {f}
                   </li>
                 ))}
@@ -99,13 +99,13 @@ export default function ProductInquiryPage() {
           )}
 
           {Object.keys(product.specs).length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="font-bold text-gray-900 mb-3">Spécifications techniques</h2>
-              <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+              <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-3">Spécifications techniques</h2>
+              <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
                 {Object.entries(product.specs).map(([key, value], idx) => (
-                  <div key={key} className={`flex px-4 py-2.5 text-sm ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
-                    <span className="w-1/2 font-medium text-gray-900">{key}</span>
-                    <span className="w-1/2 text-gray-600">{value}</span>
+                  <div key={key} className={`flex px-4 py-2.5 text-sm ${idx % 2 === 0 ? "bg-gray-50 dark:bg-gray-800/50" : "bg-white dark:bg-gray-800"}`}>
+                    <span className="w-1/2 font-medium text-gray-900 dark:text-gray-100">{key}</span>
+                    <span className="w-1/2 text-gray-600 dark:text-gray-300">{value}</span>
                   </div>
                 ))}
               </div>
@@ -114,8 +114,8 @@ export default function ProductInquiryPage() {
         </div>
 
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-24">
-            <h2 className="font-bold text-gray-900 mb-4">Vous êtes intéressé ?</h2>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 sticky top-24">
+            <h2 className="font-bold text-gray-900 dark:text-gray-100 mb-4">Vous êtes intéressé ?</h2>
 
             <a
               href={whatsappUrl}
@@ -129,38 +129,38 @@ export default function ProductInquiryPage() {
               Contacter via WhatsApp
             </a>
 
-            <div className="text-sm text-gray-600 space-y-3 mb-6">
+            <div className="text-sm text-gray-600 dark:text-gray-300 space-y-3 mb-6">
               <div className="flex items-start gap-3">
                 <span className="text-lg mt-0.5">📍</span>
                 <div>
-                  <p className="font-medium text-gray-900">Adresse</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Adresse</p>
                   <p>{STORE_INFO.address}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-lg mt-0.5">📞</span>
                 <div>
-                  <p className="font-medium text-gray-900">Téléphone</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Téléphone</p>
                   <p>{STORE_INFO.phone}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-lg mt-0.5">📧</span>
                 <div>
-                  <p className="font-medium text-gray-900">Email</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Email</p>
                   <p>{STORE_INFO.email}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-lg mt-0.5">🕐</span>
                 <div>
-                  <p className="font-medium text-gray-900">Horaires</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Horaires</p>
                   <p>{STORE_INFO.hours}</p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl overflow-hidden border border-gray-200">
+            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
               <iframe
                 src={STORE_INFO.mapEmbed}
                 width="100%"
